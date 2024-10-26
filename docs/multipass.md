@@ -7,7 +7,7 @@
 > ### >Install Docker on your system  
 > #### Step 1: Launch a Multipass Instance   
 > Open a terminal and execute: ```sudo multipass launch --name docker-vm```. This command will create a new virtual machine named docker-vm. 
->Execute: ```sudo multipass list```. It lists all virtual machines created using multipass.
+>Execute: ```sudo multipass list```. It lists virtual machines created using multipass.
 > #### Step 2: Access the Multipass Instance  
 > Execute: ```sudo multipass shell docker-vm```  
 > This will open a shell inside the docker-vm instance.  
