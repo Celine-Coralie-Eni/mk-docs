@@ -1,10 +1,10 @@
-name: Build and Push Slim Docker Image
+name: Build, Compress and Push Slim Docker Image
 
 on:
 
   push:
     branches:
-      - principal  # Trigger on pushes to the 'principal' branch
+      - master
 
 jobs:
   build-and-push:
@@ -19,7 +19,7 @@ jobs:
       - name: Set up Docker
         uses: docker/setup-buildx-action@v2
 
-      # Pull and Run Docker Slim
+      # Pull and Run Docker Slim              
       - name: Pull and Slim Docker Image
         run: |
           docker pull dslim/slim
