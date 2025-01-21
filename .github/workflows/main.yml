@@ -1,0 +1,43 @@
+name: Build and Push Slim Docker Image
+
+on:
+
+  push:
+    branches:
+      - principal  # Trigger on pushes to the 'principal' branch
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout the code
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # Set up Docker
+      - name: Set up Docker
+        uses: docker/setup-buildx-action@v2
+
+      # Pull and Run Docker Slim
+      - name: Pull and Slim Docker Image
+        run: |
+          docker pull dslim/slim
+          docker run -it --rm \
+            -v /var/run/docker.sock:/var/run/docker.sock \
+            dslim/slim build mkdocs
+
+      # Log in to Docker Hub
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      # Tag the Image
+      - name: Tag Docker Image
+        run: docker tag mkdocs:slim YOUR_DOCKERHUB_USERNAME/mkdocs:latest
+
+      # Push the Image
+      - name: Push Docker Image
+        run: docker push YOUR_DOCKERHUB_USERNAME/mkdocs:latest
