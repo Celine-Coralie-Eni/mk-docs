@@ -1,3 +1,4 @@
+  name: mkdocs automation
   on:
      push:
        branches:
