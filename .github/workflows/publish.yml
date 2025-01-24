@@ -1,34 +1,31 @@
-name: mine1
+name: build for mkdocs project
 on:
   push:
     branches:
-      master
-jobs: 
+    - master
+
+jobs:
   build:
     runs-on: ubuntu-22.04
     permissions:
-     packages: write 
-
+      packages: write
+    
     steps:
-        # Checkout the repository code
-       
-name: Checkout code
-       uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-       
-name: Logn to Container registry
-       uses: docker/login-action@v2
-       with:
-         registry: ghcr.io
-         username: ${{ github.actor }}
-         password: ${{ secrets.GITHUB_TOKEN }}
-
-       
-name: Build Project
-       uses: docker/build-push-action@v4
-       with:
-         context: .
-         push: true
-         tags: | 
-           ghcr.io/${{ vars.REPOSITORY }}:latest
-           ghcr.io/${{ vars.REPOSITORY }}:${{ github.run_number }}
+      - name:  Login to container registry
+        uses: docker/login-action@v2
+        with: 
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Build Project
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          push: true
+          tags: |
+            ghcr.io/${{ vars.REPOSITORY }}:latest
+            ghcr.io/${{ vars.REPOSITORY }}:${{ github.run_number }}
