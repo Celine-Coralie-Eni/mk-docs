@@ -1,4 +1,4 @@
-  name: mkdocs automation
+  name: Publish to ghcr.io
   on:
      push:
        branches:
@@ -28,5 +28,5 @@
              context: .
              push: true
              tag: |
-               ghcr.io/${{ var.repository }}:latest
-               ghcr.io/${{ var.repository }}:${{ github.run_number }}
+               ghcr.io/${{ vars.REPOSITORY }}:latest
+               ghcr.io/${{ vars.REPOSITORY }}:${{ github.run_number }}
