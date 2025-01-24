@@ -1,32 +1,34 @@
-  name: Publish to ghcr.io
-  on:
-     push:
-       branches:
-       - master 
+name: mine1
+on:
+  push:
+    branches:
+      master
+jobs: 
+  build:
+    runs-on: ubuntu-22.04
+    permissions:
+     packages: write 
 
-  jobs:
-    build:
-       runs-on: ubuntu-22.04
-       permissions:
-         packages: write
+    steps:
+        # Checkout the repository code
+       
+name: Checkout code
+       uses: actions/checkout@v3
 
-       steps:
-         # Checkout the repository code
-         - name: Checkout code
-           uses: actions/checkout@v3
+       
+name: Logn to Container registry
+       uses: docker/login-action@v2
+       with:
+         registry: ghcr.io
+         username: ${{ github.actor }}
+         password: ${{ secrets.GITHUB_TOKEN }}
 
-         - name: Login to Container Registry
-           uses: docker/login-action@v2
-           with: 
-             registry: ghcr.io
-             username: ${{ github.actor }}
-             password: ${{ secrets.GITHUB_TOKEN }}
-
-         - name: Build Project
-           uses: docker/build-push-action@v4
-           with:
-             context: .
-             push: true
-             tag: |
-               ghcr.io/${{ vars.REPOSITORY }}:latest
-               ghcr.io/${{ vars.REPOSITORY }}:${{ github.run_number }}
+       
+name: Build Project
+       uses: docker/build-push-action@v4
+       with:
+         context: .
+         push: true
+         tags: | 
+           ghcr.io/${{ vars.REPOSITORY }}:latest
+           ghcr.io/${{ vars.REPOSITORY }}:${{ github.run_number }}
